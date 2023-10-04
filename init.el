@@ -52,7 +52,7 @@
 
 
 ;;*** Set fonts
-(set-face-attribute 'default nil :font "DejaVu Sans Mono" :height 110)
+(set-face-attribute 'default nil :font "FiraCode Nerd Font Mono" :height 110)
 ;;(set-face-foreground 'font-lock-string-face nano-dark-popout)
 
 ;;*** Rainbow Delims
