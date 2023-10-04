@@ -1,5 +1,8 @@
 ;;* init.el
 
+;;** Turning off silly defaults
+(setq backup-directory-alist '(("." "~/.cache/emacs/backup")))
+
 ;;** use-package init/config
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
