@@ -39,7 +39,7 @@
 (dolist (mode '(org-mode-hook
 		term-shell-hook
 		eshell-mode-hook
-		info-mode-hook))
+		Info-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;;*** theme-ing
@@ -144,7 +144,9 @@
   (visual-fill-column-mode 1))
 
 (use-package visual-fill-column
-  :hook (org-mode . xy/org-mode-visual-fill))
+  :hook ((org-mode . xy/org-mode-visual-fill)
+	 (help-mode . xy/org-mode-visual-fill)
+	 (Info-mode . xy/org-mode-visual-fill)))
 
 
 ;;*** guix-emacs
