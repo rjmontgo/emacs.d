@@ -1,7 +1,7 @@
 ;;* init.el
 
 ;;** Turning off silly defaults
-(setq backup-directory-alist '(("." "~/.cache/emacs/backup")))
+(setq backup-directory-alist '(("." . "~/.cache/emacs/backup")))
 
 ;;** use-package init/config
 (require 'package)
@@ -112,7 +112,7 @@
 		  (org-level-6 . 1.1)
 		  (org-level-7 . 1.1)
 		  (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font "DejaVu Sans Mono" :weight 'regular :height (cdr face)))
+    (set-face-attribute (car face) nil :font "FiraCode Nerd Font Mono" :weight 'regular :height (cdr face)))
 
   ;; Make certain things like code blocks fixed pitch in org
   (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
@@ -122,7 +122,30 @@
   (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
-  
+
+
+(use-package evil
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-C-i-jump nil)
+  :config
+  (evil-mode 1)
+  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+
+  ;; Use visual line motions even outside of visual-line-mode buffers
+  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal))
+
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
 
 
 (use-package org
@@ -157,7 +180,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(visual-fill-column org-bullets racket-mode guix emacs-guix hc-zenburn-theme zenburn-theme zenburn ivy-rich which-key rainbow-delimiters nano-modeline diminish counsel ivy nano-theme)))
+   '(evil sicp visual-fill-column org-bullets racket-mode guix emacs-guix hc-zenburn-theme zenburn-theme zenburn ivy-rich which-key rainbow-delimiters nano-modeline diminish counsel ivy nano-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
