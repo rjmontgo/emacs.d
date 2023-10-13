@@ -2,6 +2,7 @@
 
 ;;** Turning off silly defaults
 (setq backup-directory-alist '(("." . "~/.cache/emacs/backup")))
+(setq backup-by-copying t)
 
 ;;** use-package init/config
 (require 'package)
@@ -38,7 +39,7 @@
 (dolist (mode '(org-mode-hook
 		term-shell-hook
 		eshell-mode-hook
-		info-mode-hook))
+		Info-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;;*** theme-ing
@@ -166,13 +167,77 @@
   (visual-fill-column-mode 1))
 
 (use-package visual-fill-column
-  :hook (org-mode . xy/org-mode-visual-fill))
+  :hook ((org-mode . xy/org-mode-visual-fill)
+	 (help-mode . xy/org-mode-visual-fill)
+	 (Info-mode . xy/org-mode-visual-fill)))
 
 
 ;;*** guix-emacs
 (use-package guix)
 ;;*** racket mode
 (use-package racket-mode)
+;;*** schemin'
+(use-package geiser)
+(use-package geiser-racket)
+(use-package geiser-guile)
+
+;;** lsp
+(defun xy/lsp-mode-setup ()
+  (setq lsp-header-line-breadcrumb-segments '(path-up-to-project file symbols))
+  (lsp-headerline-breadcrumb-mode))
+
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :hook (lsp-mode xy/lsp-mode-setup)
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :config
+  (lsp-enable-which-key-integration t))
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-position 'bottom))
+
+(use-package typescript-ts-mode
+  :mode "\\.ts\\'"
+  :hook (typescript-ts-mode . lsp-deferred))
+
+(use-package lsp-ivy)
+
+(use-package company
+  :after lsp-mode
+  :hook (lsp-mode . company-mode)
+  :bind
+  (:map company-active-map
+	      ("<tab>" . company-complete-selection))
+  (:map lsp-mode-map
+	("<tab>" . company-indent-or-complete-common))
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.2))
+
+(use-package company-box
+  :hook (company-mode . company-box-mode))
+
+;;*** Tree-Sitter
+(setq treesit-language-source-alist
+   '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+     (cmake "https://github.com/uyha/tree-sitter-cmake")
+     (css "https://github.com/tree-sitter/tree-sitter-css")
+     (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+     (go "https://github.com/tree-sitter/tree-sitter-go")
+     (html "https://github.com/tree-sitter/tree-sitter-html")
+     (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+     (json "https://github.com/tree-sitter/tree-sitter-json")
+     (make "https://github.com/alemuller/tree-sitter-make")
+     (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+     (python "https://github.com/tree-sitter/tree-sitter-python")
+     (toml "https://github.com/tree-sitter/tree-sitter-toml")
+     (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+     (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+     (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -180,7 +245,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
+<<<<<<< HEAD
    '(evil sicp visual-fill-column org-bullets racket-mode guix emacs-guix hc-zenburn-theme zenburn-theme zenburn ivy-rich which-key rainbow-delimiters nano-modeline diminish counsel ivy nano-theme)))
+=======
+   '(treesit company-box company lsp-mode geiser-guile geiser-racket visual-fill-column org-bullets racket-mode guix emacs-guix hc-zenburn-theme zenburn-theme zenburn ivy-rich which-key rainbow-delimiters nano-modeline diminish counsel ivy nano-theme)))
+>>>>>>> da5cf476d7e39a9809a492158038d449db26e2e3
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
