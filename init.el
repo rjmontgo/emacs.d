@@ -27,3 +27,10 @@
 (require 'xy-eglot)
 (require 'xy-corfu)
 (require 'xy-elixir)
+(require 'xy-treesitter)
+
+;; org
+(require 'xy-org)
+
+;; misc
+(require 'xy-nov)

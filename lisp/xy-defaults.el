@@ -20,12 +20,14 @@
 (dolist (mode '(org-mode-hook
 		term-shell-hook
 		eshell-mode-hook
+		leetcode--problem-detail-mode-hook
+		nov-mode-hook
 		Info-mode-hook))
-  (add-hook mode (lambda () display-line-numbers-mode 0)))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 
 ;; set a decent default font
-(set-face-attribute 'default nil :font "FiraCode Nerd Font Mono" :height 160)
+(set-face-attribute 'default nil :font "FiraCode Nerd Font Mono" :height 120)
 
 ;; disable backup files
 (setq backup-directory-alist '(("." . "~/.cache/emacs/backup")))
