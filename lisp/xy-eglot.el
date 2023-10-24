@@ -2,9 +2,9 @@
 ;; eglot may generate a lot of output so let it have a highger threshold than 4kb
 (setq read-process-output-max (* 1024 1024))
 
-(use-package eglot
-  :bind
-  (("C-c C-c" . completion-at-point)))
+(use-package eglot)
+
+
 
 
 (use-package markdown-mode)
