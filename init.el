@@ -17,20 +17,6 @@
 (setq custom-file (locate-user-emacs-file "custom.el"))
 
 (require 'xy-use-package)
-(require 'xy-defaults)
-
-;; gui config
-(require 'xy-themes)
-(require 'xy-emacs-completion)
-
-;; lsp
-(require 'xy-eglot)
-(require 'xy-corfu)
-(require 'xy-elixir)
-(require 'xy-treesitter)
-
-;; org
+(require 'xy-main)
+(require 'xy-prog)
 (require 'xy-org)
-
-;; misc
-(require 'xy-nov)
