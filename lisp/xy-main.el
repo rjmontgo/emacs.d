@@ -6,12 +6,18 @@
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
 (setq inhibit-startup-screen t)
-(setq visible-bell nil)
+(setq visible-bell t)
 (setq-default indent-tabs-mode nil)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
 (menu-bar-mode -1)
+(global-prettify-symbols-mode t)
+
+;; Disable visible bell in darwin
+(when (eq system-type 'darwin)
+  (progn (setq visible-bell nil)
+         (setq ring-bell-function 'ignore)))
 
 ;; enable some good ui things
 (setq scroll-margin 10)
