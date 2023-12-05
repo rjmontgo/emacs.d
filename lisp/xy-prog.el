@@ -34,17 +34,32 @@
 ;; eglot may generate a lot of output so let it have a highger threshold than 4kb
 (setq read-process-output-max (* 1024 1024))
 
-(use-package eglot)
+(use-package eglot
+  :config
+  ;; tell eglot to chill out
+  (setq eglot-report-progress nil))
 
 (use-package markdown-mode) ; used to render eldoc box properly 
 
 (use-package eldoc-box
-  :bind (("C-c C-k" . eldoc-box-help-at-point)))
+  :config
+  ;; quiet eldoc in the minibuffer
+  (setq eldoc-echo-area-use-multiline-p nil)
+  :bind
+  (("C-c C-k" . eldoc-box-help-at-point)))
 
-;;*** Java
+;;** LSP Mode config
+(use-package lsp-mode
+  :config
+  (setq lsp-headerline-breadcrumb-icons-enable nil))
+(use-package company)
+(use-package lsp-ui)
+
+;;*** Java/lsp /non-eglot work
 ;;; no config needed at this time
-(add-to-list 'exec-path "/opt/homebrew/opt/openjdk/bin")
-
+(add-to-list 'exec-path "/etc/profiles/per-user/rob/bin/java")
+(use-package lsp-java
+  :hook (java-ts-mode . lsp-mode))
 ;;*** Clojure
 (use-package clojure-ts-mode
   :mode "\\.clj\\'")
