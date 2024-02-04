@@ -20,3 +20,5 @@
 (require 'xy-main)
 (require 'xy-prog)
 (require 'xy-org)
+(require 'xy-elisp)
+(put 'narrow-to-region 'disabled nil)
