@@ -29,6 +29,7 @@
 (dolist (mode '(org-mode-hook
 		term-mode-hook
 		eshell-mode-hook
+                shell-mode-hook
 		leetcode--problem-detail-mode-hook
 		nov-mode-hook
                 vterm-mode-hook
@@ -44,10 +45,21 @@
 (setq backup-by-copying t)
 
 
+
 ;;; some decent default keybinds
-(global-set-key (kbd "M-o") 'other-window)
-(global-set-key (kbd "C-w") 'backward-kill-word)
-(global-set-key (kbd "C-c C-w") 'kill-region)
+(defvar xy/keymap (make-keymap))
+(define-minor-mode xy/keys-mode
+  "Minor mode to prevent other modes from clobbering my keybinds"
+  :init-value t
+  :global t
+  :keymap xy/keymap)
+
+(add-to-list 'emulation-mode-map-alists
+             `((xy/keys-mode . ,xy/keymap)))
+
+(define-key xy/keymap (kbd "M-o") 'other-window)
+(define-key xy/keymap (kbd "C-w") 'backward-kill-word)
+(define-key xy/keymap (kbd "C-c C-w") 'kill-region)
 
 ;;; setup OS X homebrew bin directory
 (add-to-list 'exec-path "/nix/var/nix/profiles/default/bin/" t)

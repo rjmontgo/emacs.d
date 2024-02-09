@@ -29,63 +29,34 @@
         (js-mode . js-ts-mode)
         (javascript-mode . js-ts-mode)))
 
+(use-package mhtml-mode
+  :config
+  (keymap-local-unset "M-o"))
+
 ;;** LSP config
 ;; eglot may generate a lot of output so let it have a highger threshold than 4kb
 (setq read-process-output-max (* 1024 1024))
 
-(defun xy--show-focus-unfocus-lsp-ui-doc ()
-  (interactive)
-  (if (lsp-ui-doc--visible-p)
-      (if (frame-focus-state (lsp-ui-doc--get-frame))
-          (lsp-ui-doc-unfocus-frame)
-        (lsp-ui-doc-focus-frame))
-    (lsp-ui-doc-glance)))
-
-(use-package lsp-mode
+(use-package corfu
+  :hook
+  ((corfu-mode . corfu-popupinfo-mode))
   :config
-
-  (lsp-enable-which-key-integration t)
-  (setq lsp-headerline-breadcrumb-icons-enable t)
-  ;; :hook (typescript-ts-mode
-  ;;        go-ts-mode
-  ;;        js-ts-mode
-  ;;        java-ts-mode
-  ;;        python-ts-mode)
-  :bind (("C-c C-k" . xy--show-focus-unfocus-lsp-ui-doc)
-         ("C-c C-d" . lsp-find-definition))
-  :commands (lsp lsp-deferred))
-
-(use-package lsp-ui
-  :commands lsp-ui-mode
-  :config (lsp-ui-doc-mode t)
-  :custom
-  (lsp-ui-doc-position 'at-point "Set Doc Position to Point"))
-
-(use-package markdown-mode) ; used to render eldoc box properly
-
-(use-package eldoc-box
-  :diminish
-  :config
-  ;; quiet eldoc in the minibuffer
-  (setq eldoc-echo-area-use-multiline-p nil))
-
+  (setq corfu-popupinfo-delay '(3.0 . 1.0))
+  :init
+  (global-corfu-mode))
 
 ;;*** Clojure
 (use-package clojure-ts-mode
   :mode "\\.clj\\'")
+(use-package cider)
 
-(use-package window-stool
-  :init
-  (unless (package-installed-p 'window-stool)
-    (package-vc-install "https://github.com/JasZhe/window-stool")))
-
+;;*** go
 (defun go-mode-setup ()
   (interactive)
   (setq go-ts-mode-indent-offset 4)
   (setq indent-tabs-mode t)
   (setq tab-width 4))
 
-;;*** go
 (use-package go-ts-mode)
 
 ;;*** JS/TS/TSX
@@ -96,17 +67,12 @@
   :diminish
   :hook (emacs-lisp-mode clojure-ts-mode scheme-mode lisp-mode))
 
-(use-package cider)
-
-
 ;;*** Smart Parens
 (defun lispy-smartparens ()
   "Disables some features of smart parens that are annoying
 in lisp code like '' or \"\""
   (sp-pair "'" nil :actions :rem)
   (sp-pair "`" nil :actions :rem))
-
-
 
 (use-package smartparens-mode
   :ensure smartparens
@@ -120,13 +86,6 @@ in lisp code like '' or \"\""
 
 ;;*** Nix
 (use-package nix-mode)
-
-(use-package company
-  :after lsp-mode
-  :hook (lsp-mode . company-mode)
-  :custom
-  (company-minimum-prefix-length 1)
-  (company-idle-delay 0.0))
 
 ;;** Magit (Forge)
 (use-package magit
@@ -144,6 +103,6 @@ in lisp code like '' or \"\""
   (setq inferior-lisp-program "sbcl"))
 
 
-(provide 'xy-prog)
 
+(provide 'xy-prog)
 
